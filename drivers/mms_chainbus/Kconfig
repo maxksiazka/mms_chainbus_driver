@@ -1,0 +1,22 @@
+# SPDX-License-Identifier: Apache-2.0
+
+menuconfig MMS_CHAINBUS
+	bool "MMS Chainbus HAT Manager"
+	default y
+	depends on DT_HAS_KONAR_MMS_CHAINBUS_ENABLED
+	help
+	  Enable support for MMS Chainbus multi-slot HAT manager.
+
+if MMS_CHAINBUS
+
+config CHAINBUS_INIT_PRIORITY
+	int "Chainbus Init Priority"
+	default 55
+	help
+	  Initialization priority in POST_KERNEL. Must run before slot bridges.
+
+module = MMS_CHAINBUS
+module-str = mms_chainbus
+source "subsys/logging/Kconfig.template.log_config"
+
+endif # CHAINBUS

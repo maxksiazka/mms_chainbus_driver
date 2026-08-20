@@ -1,0 +1,26 @@
+# SPDX-License-Identifier: Apache-2.0
+
+description: |
+  MMS Chainbus HAT Manager.
+  Manages physical HAT slots using an array of Chip Select GPIO lines.
+
+compatible: "konar,mms-chainbus"
+
+include: base.yaml
+
+properties:
+  cs-gpios:
+    type: phandle-array
+    required: true
+    description: |
+      Array of GPIO specifiers corresponding to physical HAT address lines (slots 0..7).
+
+child-binding:
+  description: HAT child node defined under chainbus
+
+  properties:
+    position:
+      type: int
+      description: |
+        Optional explicit physical slot index (0..7).
+        If omitted, slot index is resolved at boot via runtime auto-discovery.
