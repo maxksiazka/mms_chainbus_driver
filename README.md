@@ -108,59 +108,8 @@ chainbus_spi: &spi3 {};
         #address-cells = <1>;
         #size-cells = <0>;
 
-        /* Static HAT: locked to Slot 0 via 'position' property */
-        hat_rtc_sd: hat@0 {
-            compatible = "konar,mms-hat";
-            reg = <0>;
-            position = <0>;          /* Static slot assignment */
-            label = "Static RTC + SD HAT";
+        /* HAT definitions go here, either static or dynamic discovery */
 
-            /* Virtual I2C Bridge for Slot 0 */
-            slot0_i2c: i2c-bridge {
-                compatible = "konar,mms-hat-i2c-bridge";
-                i2c-bus = <&i2c2>;
-                #address-cells = <1>;
-                #size-cells = <0>;
-
-                /* Any I2C devices on this HAT can be defined here */
-                /* Example: a GPIO expander on the virtual I2C bus */
-                expander0: gpio@20 {
-                    compatible = "nxp,pca9555";
-                    reg = <0x20>;
-                    gpio-controller;
-                    #gpio-cells = <2>;
-                    ngpios = <16>;
-                    status = "okay";
-                };
-            };
-
-            /* Virtual SPI Bridge for Slot 0 */
-            slot0_spi: spi-bridge {
-                compatible = "konar,mms-hat-spi-bridge";
-                spi-bus = <&chainbus_spi>;
-                #address-cells = <1>;
-                #size-cells = <0>;
-                /* Any SPI devices on this HAT can be defined here */
-            };
-
-            /* LEDs on GPIO expander */
-            leds {
-                compatible = "gpio-leds";
-                hat0_led0: led_0 { label = "LED 0"; gpios = <&expander0 0 GPIO_ACTIVE_LOW>; };
-                hat0_led1: led_1 { label = "LED 1"; gpios = <&expander0 1 GPIO_ACTIVE_LOW>; };
-                /* ... up to led_7 ... */
-            };
-        };
-
-        /* Dynamic HAT: no 'position' -> auto-discovered at runtime */
-        hat_dynamic: hat@1 {
-            compatible = "konar,mms-hat";
-            reg = <1>;
-            /* position omitted -> slot assigned by EEPROM discovery */
-            label = "Dynamic HAT";
-            /* Child bridges defined similarly */
-        };
-    };
 };
 ```
 
@@ -332,5 +281,5 @@ Example: A HAT with ID pointer `0x0100` stores its name at `0x0110`, SW version 
 
 ## License
 
-Apache 2.0
+This software is licensed under **Apache 2.0**.
 See [LICENSE](LICENSE) for details.
