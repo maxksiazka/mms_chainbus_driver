@@ -88,7 +88,6 @@ chainbus_spi: &spi3 {};
     aliases {
         chainbus-led0 = &hat0_led0;
         /* ... chainbus-led7 = &hat0_led7; */
-        rtc-clock = &rtc0;
     };
 
     chainbus0: chainbus {
